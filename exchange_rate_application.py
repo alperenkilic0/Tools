@@ -11,12 +11,13 @@ except:
     print("Please check your internet connection")
     time.sleep(5)
     exit()
-
+    
 url = "https://www.doviz.com"
+#I chose this site when developing the tool, you can choose any site.
 r = requests.get(url)
 
 soup = BeautifulSoup(r.content, "html.parser")
-
+#The site from which we obtained the data gave the data in TL. I converted it to USD accordingly.
 data = soup.find("span", {"data-socket-key": "gram-altin"}).text
 data1 = soup.find("span", {"data-socket-key": "USD"}).text
 data2 = soup.find("span", {"data-socket-key": "EUR"}).text
@@ -25,11 +26,11 @@ data4 = soup.find("span", {"data-socket-key": "XU100"}).text
 data5 = soup.find("span", {"data-socket-key": "GBP"}).text
 data6 = soup.find("span", {"data-socket-key": "gumus"}).text
 
-# Convert USD to TRY to determine the exchange rate
-usd_to_try = float(data1.replace(",", "."))
+# Convert TRY to USD to determine the exchange rate
+try_to_usd = float(data1.replace(",", "."))
 
 # Convert the value of gold from grams to USD
-dataus = str(round(float(data.replace(".", "").replace(",", ".")) / usd_to_try, 2))
+dataus = str(round(float(data.replace(".", "").replace(",", ".")) / try_to_usd, 2))
 
 # Convert XU100 value to float
 xu100 = float(data4.replace(".", "").replace(",", "."))
@@ -67,7 +68,7 @@ dolarValue.place(x=180, y=90)
 euro = tk.Label(window, text="EUR", bg="red", font="arial 15 italic")
 euro.pack()
 euro.place(x=30, y=170)
-euroValue = tk.Label(window, text=str(round(float(data2.replace(",", ".")) / usd_to_try, 2)) + " USD", bg="red",
+euroValue = tk.Label(window, text=str(round(float(data2.replace(",", ".")) / try_to_usd, 2)) + " USD", bg="red",
                      font="arial 15 bold")
 euroValue.pack()
 euroValue.place(x=180, y=170)
@@ -92,7 +93,7 @@ xu100Value.place(x=180, y=250)
 gbp = tk.Label(window, text="GBP", bg="red", font="arial 15 italic")
 gbp.pack()
 gbp.place(x=30, y=130)
-gbpValue = tk.Label(window, text=str(round(float(data5.replace(",", ".")) / usd_to_try, 2)) + " USD", bg="red",
+gbpValue = tk.Label(window, text=str(round(float(data5.replace(",", ".")) / try_to_usd, 2)) + " USD", bg="red",
                     font="arial 15 bold")
 gbpValue.pack()
 gbpValue.place(x=180, y=130)
@@ -101,7 +102,7 @@ gbpValue.place(x=180, y=130)
 silver = tk.Label(window, text="Grams Of Silver", bg="red", font="arial 15 italic")
 silver.pack()
 silver.place(x=30, y=330)
-silverValue = tk.Label(window, text=str(round(float(data6.replace(",", ".")) / usd_to_try, 2)) + " USD", bg="red",
+silverValue = tk.Label(window, text=str(round(float(data6.replace(",", ".")) / try_to_usd, 2)) + " USD", bg="red",
                        font="arial 15 bold")
 silverValue.pack()
 silverValue.place(x=180, y=330)
